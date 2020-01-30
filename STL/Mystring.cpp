@@ -9,6 +9,7 @@ namespace my
 	{
 	public:
 		string(char* str = "")
+			:_pCount(new int(1))
 		{
 			if (nullptr == str)
 				str = "";
@@ -62,27 +63,53 @@ namespace my
 		//浅拷贝
 		string(const string& s)
 			:_str(s._str)
-		{ }
+			,_pCount(s._pCount)
+		{
+			++_count;
+		}
 
 		string &operator=(const string& s)
 		{
-			_str = s._str;
+			if (this != &s)
+			{
+				//需要将当前对象的旧资源释放掉
+				if (0 == --*_pCount)
+				{
+					delete[] _str;
+					delete _pCount;
+				}
+				_str = s._str;
+				_pCount = s._pCount;
+				(*_pCount)++;
+			}
 			return *this;
 		}
 		
 
 		~string()
 		{
-			if (_str)
+			if (_str && --*_pCount==0 )
 			{
 				delete[] _str;
 				_str = nullptr;
+
+				delete _pCount;
+				_pCount = nullptr;
 			}
+		}
+
+		char& operator[](size_t index)
+		{
+			return _str[index];
 		}
 	private:
 		char* _str;
+		int* _pCount;
 	};
+
+	//int string::_count = 0;
 }
+
 
 int main()
 {
