@@ -99,10 +99,11 @@ void SListReverse(SListNode** phead){
 
 	while (temp){
 		oldh->next = temp->next;
-		temp->next = oldh;
+		temp->next = head;
 		head = temp;
 		temp = oldh->next;
 	}
+	*phead = head;
 
 }
 
