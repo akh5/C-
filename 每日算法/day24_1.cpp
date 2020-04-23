@@ -10,6 +10,10 @@
 
 using namespace std;
 
+/****
+输入一个整数n(2<=n<=10000)，要求输出所有从1到这个整数之间(不包括1和这个整数)个位为1的素数，如果没有则输出-1。
+****/
+
 bool iscon(int n)
 {
 	for (int i = 2; i <= sqrt((double(n))); i++)
